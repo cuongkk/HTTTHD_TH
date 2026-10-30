@@ -4,8 +4,8 @@ Kịch bản này bám theo source hiện có. Hãy diễn đạt lại bằng l
 
 ## Chuẩn bị trước khi bấm quay
 
-1. Làm theo `README_PHASE2.md`: tạo database QTKD riêng, cấu hình User Secrets, chạy migration, khởi động API ở `http://localhost:5095`.
-2. Mở sẵn IDE với `QTKD.slnx`, Swagger ở `http://localhost:5095/swagger`, pgAdmin/psql kết nối **đúng database QTKD**, và README có sơ đồ thành phần. Phóng to chữ để đọc được trong video.
+1. Làm theo `README_PHASE2.md`: tạo database QTKD riêng, cấu hình User Secrets **trước khi** chạy migration. Nếu hiện `Thiếu ConnectionStrings:QtkdDb`, dừng và hoàn tất bước cấu hình. Chạy `restore`, `build`, `database update` trước khi bấm quay.
+2. Mở **Terminal 1** tại `source`, chạy `dotnet run --project QTKD.Api --launch-profile http` và để nguyên khi demo. Mở **Terminal 2** tại `source` để gọi `curl.exe` nếu không thao tác hoàn toàn trong Swagger. Mở sẵn IDE với `QTKD.slnx`, Swagger ở `http://localhost:5095/swagger`, pgAdmin/psql kết nối **đúng database QTKD**, và README có sơ đồ thành phần. Phóng to chữ để đọc được trong video.
 3. Trong pgAdmin mở sẵn các câu `SELECT` ở README; chuẩn bị trang repository GitHub **sau khi đã push source, migration và README**. Không hiện lệnh `user-secrets set`, mật khẩu, hoặc giá trị chuỗi kết nối trên màn hình.
 4. Thu thử 15 giây để kiểm tra tiếng. Khi quay, chuyển cửa sổ gọn; không chờ build hoặc cài package trong video.
 

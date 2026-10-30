@@ -35,6 +35,8 @@ dotnet user-secrets set 'ConnectionStrings:QtkdDb' 'Host=localhost;Port=5432;Dat
 
 Cũng có thể dùng biến môi trường `ConnectionStrings__QtkdDb`. `appsettings.json` để giá trị rỗng, không chứa mật khẩu. User Secrets nằm ngoài thư mục source nên không đóng gói vào bài nộp.
 
+**Nếu thấy `Thiếu ConnectionStrings:QtkdDb`:** chưa lưu chuỗi kết nối cho project `QTKD.Api`. Hãy chạy lệnh `dotnet user-secrets set` ở bước 2 với mật khẩu PostgreSQL thật của máy bạn, sau đó chạy lại migration. Thông báo `Unable to create a DbContext` của `dotnet ef` là hệ quả của cùng lỗi cấu hình này. Không quay màn hình lúc nhập mật khẩu.
+
 3. Build, áp dụng migration rồi chạy API:
 
 ```powershell
@@ -45,6 +47,15 @@ dotnet run --project QTKD.Api --launch-profile http
 ```
 
 Swagger: `http://localhost:5095/swagger`. Migration `InitialCreate` tạo bốn bảng, khóa chính, hai khóa ngoại và dữ liệu mẫu. Chỉ cần chạy `database update` một lần cho database mới; EF lưu migration đã chạy trong `__EFMigrationsHistory`.
+
+### Bố trí khi demo
+
+- **Trước khi bấm quay:** mở PostgreSQL/pgAdmin, tạo database, lưu User Secrets, chạy `restore`, `build` và `database update`. Đảm bảo migration kết thúc bằng `Done`.
+- **Terminal 1:** đứng ở thư mục `source`, chạy `dotnet run --project QTKD.Api --launch-profile http` và **giữ cửa sổ này chạy**. Chờ dòng `Now listening on: http://localhost:5095`.
+- **Terminal 2:** cũng đứng ở `source`, gọi các lệnh `curl.exe` bên dưới. Nếu dùng Swagger trong trình duyệt thì Terminal 2 là tùy chọn; chỉ cần Terminal 1 và pgAdmin để đối chiếu SQL.
+- **pgAdmin/psql:** mở đúng database trong chuỗi kết nối QTKD để xem các bảng và chạy `SELECT`.
+
+Không chạy `dotnet run` trong Terminal 2 khi Terminal 1 đang chiếm cổng 5095. Khi demo xong, bấm `Ctrl+C` trong Terminal 1 để dừng API.
 
 ## Thử API và đối chiếu PostgreSQL
 
