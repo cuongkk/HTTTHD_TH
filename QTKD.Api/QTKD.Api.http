@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:5095
+
+GET {{baseUrl}}/api/customers
+
+###
+
+GET {{baseUrl}}/api/contracts/1
+
+###
+
+GET {{baseUrl}}/api/contracts/999

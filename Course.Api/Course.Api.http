@@ -1,0 +1,81 @@
+@baseUrl = http://localhost:5082
+# Database giữ dữ liệu sau khi restart. Sau POST, thay courseId bằng Id thực tế trong response/Location.
+@courseId = 0
+
+### 01. Danh sách: 200
+GET {{baseUrl}}/api/courses
+
+### 02. Chi tiết: 200
+GET {{baseUrl}}/api/courses/2
+
+### 03. Không tìm thấy: 404
+GET {{baseUrl}}/api/courses/999
+
+### 04. Thêm: 201 + Location (Id trong body được bỏ qua)
+POST {{baseUrl}}/api/courses
+Content-Type: application/json
+
+{"id":0,"code":"C004","name":"Lập trình Web","credits":4,"isActive":true}
+
+### 05. Sai tín chỉ: 400, không lưu
+POST {{baseUrl}}/api/courses
+Content-Type: application/json
+
+{"id":0,"code":"C005","name":"Môn không hợp lệ","credits":7,"isActive":true}
+
+### 06. Code rỗng: 400, không lưu
+POST {{baseUrl}}/api/courses
+Content-Type: application/json
+
+{"id":0,"code":"   ","name":"Code trống","credits":3,"isActive":true}
+
+### 07. Cập nhật đủ bốn trường: 204
+PUT {{baseUrl}}/api/courses/{{courseId}}
+Content-Type: application/json
+
+{"id":0,"code":"C004","name":"Lập trình Web nâng cao","credits":5,"isActive":false}
+
+### 08. Kiểm tra lại sau PUT: 200, Credits 5, IsActive false
+GET {{baseUrl}}/api/courses/{{courseId}}
+
+### 09. Update không tồn tại: 404
+PUT {{baseUrl}}/api/courses/999
+Content-Type: application/json
+
+{"id":0,"code":"C009","name":"Môn mới","credits":3,"isActive":true}
+
+### 10. Tìm theo Code: 200, C002
+GET {{baseUrl}}/api/courses/search?keyword=c002
+
+### 11. Tìm theo Name: 200, C003 (mạng đã được URL-encode)
+GET {{baseUrl}}/api/courses/search?keyword=m%E1%BA%A1ng
+
+### 12. Không khớp: 200, []
+GET {{baseUrl}}/api/courses/search?keyword=zzzz_khongkhop
+
+### 13. Keyword rỗng: 400
+GET {{baseUrl}}/api/courses/search?keyword=
+
+### 14. Keyword thiếu: 400
+GET {{baseUrl}}/api/courses/search
+
+### 15. Toàn khoảng trắng: 400
+GET {{baseUrl}}/api/courses/search?keyword=%20%20
+
+### 16. Xóa: 204
+DELETE {{baseUrl}}/api/courses/{{courseId}}
+
+### 17. Tìm lại: 404
+GET {{baseUrl}}/api/courses/{{courseId}}
+
+### 18. Xóa lại: 404
+DELETE {{baseUrl}}/api/courses/{{courseId}}
+
+### TH4. Đủ điều kiện đăng ký Course Active: 204, chỉ kiểm tra, không tạo Enrollment
+POST {{baseUrl}}/api/courses/2/registration-check
+
+### TH4. Course Inactive bị từ chối: 409 ProblemDetails
+POST {{baseUrl}}/api/courses/3/registration-check
+
+### TH4. Course không tồn tại: 404 ProblemDetails
+POST {{baseUrl}}/api/courses/999/registration-check
