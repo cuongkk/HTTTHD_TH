@@ -17,10 +17,9 @@ QTKD.Api/
 
 Luồng: `HTTP → Controller → Service → Repository → QtkdDbContext → PostgreSQL`, rồi kết quả quay lại theo chiều ngược. `AsNoTracking` dùng cho truy vấn chỉ đọc. `Include(Customer)` lấy tên khách hàng trong phản hồi Contract.
 
-```mermaid
-flowchart LR
-    A[HTTP client] --> B[Controller] --> C[Service] --> D[Repository] --> E[QtkdDbContext] --> F[(PostgreSQL)]
-```
+![Sơ đồ thành phần QTKD tuần 05](docs/so-do-thanh-phan-qtkd.svg)
+
+[Mở sơ đồ ở kích thước đầy đủ](docs/so-do-thanh-phan-qtkd.svg). Hình thể hiện cả luồng đọc API và hai quan hệ một-nhiều trong database.
 
 ## Chuẩn bị và chạy
 
@@ -78,13 +77,26 @@ SELECT "PriceListId", "ServiceCode", "UnitPrice" FROM "PriceItems" ORDER BY "Ser
 SELECT "MigrationId" FROM "__EFMigrationsHistory";
 ```
 
+Để kiểm tra checkpoint 4 về khóa chính và khóa ngoại, mở mục **Constraints** của từng bảng trong pgAdmin, hoặc chạy:
+
+```sql
+SELECT table_name, constraint_name, constraint_type
+FROM information_schema.table_constraints
+WHERE table_schema = 'public'
+  AND table_name IN ('Customers', 'Contracts', 'PriceLists', 'PriceItems')
+  AND constraint_type IN ('PRIMARY KEY', 'FOREIGN KEY')
+ORDER BY table_name, constraint_type, constraint_name;
+```
+
+Kết quả cần có khóa chính của cả bốn bảng và hai khóa ngoại `FK_Contracts_Customers_CustomerId`, `FK_PriceItems_PriceLists_PriceListId`.
+
 Dữ liệu mẫu: Customer 1 Minh Phát, Customer 2 An Bình; Contract 1 Draft thuộc Customer 1; PriceList 1 có hai PriceItem `SVC-001` và `SVC-002`. Nếu API trả khác SQL, kiểm tra tên database trong chuỗi kết nối của API và pgAdmin.
 
 ## Giả định và bước tiếp theo
 
 Workspace chưa có kết quả Phase 1 (US03, sơ đồ trạng thái, CTR-01–03), nên entity đang dùng đúng các trường tối thiểu gợi ý trong PDF. `Active` và `Draft` là giá trị demo. Trước tuần 06, đối chiếu lại với thiết kế Phase 1 và ghi lý do nếu cần đổi schema. Tuần 05 chưa có API tạo/sửa, gửi hợp đồng, kiểm tra các rule hoặc test xUnit; các phần đó được giao cho tuần 06–07.
 
-Xem [HUONG_DAN_VIDEO_TH5.md](HUONG_DAN_VIDEO_TH5.md) để tự chuẩn bị video trình bày có tiếng dưới 5 phút.
+Checkpoint 7 yêu cầu một **máy hoặc môi trường khác** thực hiện lại theo README. Người kiểm tra cần tự cấu hình PostgreSQL, chạy migration, khởi động API và gọi hai GET; ghi nhận môi trường, ngày và kết quả thực tế. Lần kiểm tra trên cùng máy chưa thay thế bước này.
 
 ## Repository và minh chứng tuần 05
 

@@ -2,7 +2,7 @@
 
 ## Phase 2 - QTKD tuần 05
 
-Mở [README_PHASE2.md](README_PHASE2.md) để cấu hình PostgreSQL, chạy migration, khởi động `QTKD.slnx` và thử hai GET API. [Kịch bản video TH5](KICH_BAN_VIDEO_TH5.md) giải thích source và cách demo.
+Mở [README_PHASE2.md](README_PHASE2.md) để cấu hình PostgreSQL, chạy migration, khởi động `QTKD.slnx` và thử hai GET API. [Sơ đồ thành phần](docs/so-do-thanh-phan-qtkd.svg) có thể mở riêng khi trình bày.
 
 ## TH3 - Course API với EF Core và PostgreSQL
 
@@ -86,7 +86,7 @@ POST bỏ qua `Id` và `CreatedAt` do client gửi; PostgreSQL cấp hai giá tr
 
 ## Video và bài nộp
 
-Xem [HUONG_DAN_VIDEO_TH3.md](HUONG_DAN_VIDEO_TH3.md) để tự chuẩn bị phần giải thích dưới 5 phút. Sinh viên tự quay màn hình và thu tiếng, chỉ trình bày phần đã chạy và hiểu được. Khi có video, nén thành `mssv.zip` với `source/` và `mssv_th3.mp4` ở cấp gốc; bỏ các thư mục `bin/`, `obj/`, user secrets và dữ liệu PostgreSQL. Upload ZIP lên Google Drive, kiểm tra quyền xem link, rồi nộp một file `.txt` chỉ chứa link đó trên Moodle.
+Sinh viên tự quay màn hình và thu tiếng, chỉ trình bày phần đã chạy và hiểu được. Khi có video, nén thành `mssv.zip` với `source/` và `mssv_th3.mp4` ở cấp gốc; bỏ các thư mục `bin/`, `obj/`, user secrets và dữ liệu PostgreSQL. Upload ZIP lên Google Drive, kiểm tra quyền xem link, rồi nộp một file `.txt` chỉ chứa link đó trên Moodle.
 
 ## TH4 – Application Architecture
 
@@ -94,4 +94,4 @@ API tách trách nhiệm theo luồng `CoursesController → CourseService → C
 
 Các route CRUD/Search và status của TH3 được giữ nguyên. `POST /api/courses/{id}/registration-check` kiểm tra điều kiện đăng ký: Active trả 204, Inactive trả 409, Id không tồn tại trả 404. Nó chỉ kiểm tra, không tạo bản ghi Enrollment. Không cần migration mới; schema và dữ liệu TH3 giữ nguyên.
 
-Xem [HUONG_DAN_VIDEO_TH4.md](HUONG_DAN_VIDEO_TH4.md) để chuẩn bị video 4:45. Hãy tự giải thích bằng lời của mình và chỉ demo những gì đã chạy trên máy.
+Video TH4 cần tự giải thích bằng lời của mình và chỉ demo những gì đã chạy trên máy.
