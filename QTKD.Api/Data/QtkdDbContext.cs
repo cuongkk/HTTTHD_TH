@@ -27,7 +27,9 @@ public sealed class QtkdDbContext(DbContextOptions<QtkdDbContext> options) : DbC
             entity.HasKey(x => x.Id);
             entity.HasIndex(x => x.ContractNo).IsUnique();
             entity.Property(x => x.ContractNo).HasMaxLength(50).IsRequired();
-            entity.Property(x => x.Status).HasMaxLength(32).IsRequired();
+            entity.Property(x => x.Status).HasMaxLength(32).IsRequired().IsConcurrencyToken();
+            entity.Property(x => x.Summary).HasMaxLength(2000);
+            entity.Property(x => x.DocumentReference).HasMaxLength(500);
             entity.HasOne(x => x.Customer)
                 .WithMany(x => x.Contracts)
                 .HasForeignKey(x => x.CustomerId)

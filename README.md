@@ -1,8 +1,8 @@
 # Thực hành HTTTHD
 
-## Phase 2 - QTKD tuần 05
+## Phase 2 - QTKD tuần 05–06
 
-Mở [README_PHASE2.md](README_PHASE2.md) để cấu hình PostgreSQL, chạy migration, khởi động `QTKD.slnx` và thử hai GET API. [Sơ đồ thành phần](docs/so-do-thanh-phan-qtkd.svg) có thể mở riêng khi trình bày.
+Mở [README_PHASE2.md](README_PHASE2.md) để cấu hình PostgreSQL, chạy migration và khởi động `QTKD.slnx`. [Tài liệu API tuần 06](docs/week06-api.md) có request/response mẫu, đối chiếu US03/CTR-01–03 và thứ tự demo. [Sơ đồ thành phần](docs/so-do-thanh-phan-qtkd.svg) có thể mở riêng khi trình bày.
 
 ## TH3 - Course API với EF Core và PostgreSQL
 

@@ -9,4 +9,6 @@ public sealed class Contract
     public DateOnly StartDate { get; set; }
     public DateOnly EndDate { get; set; }
     public string Status { get; set; } = string.Empty;
+    public string? Summary { get; set; }
+    public string? DocumentReference { get; set; }
 }

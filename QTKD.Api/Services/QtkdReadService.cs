@@ -8,14 +8,30 @@ public sealed class QtkdReadService(IQtkdRepository repository) : IQtkdReadServi
     public async Task<IReadOnlyList<CustomerResponse>> GetCustomersAsync(CancellationToken cancellationToken)
     {
         var customers = await repository.GetCustomersAsync(cancellationToken);
-        return customers.Select(x => new CustomerResponse(x.Id, x.Name, x.Status)).ToList();
+        return customers.Select(QtkdResponses.From).ToList();
     }
 
     public async Task<ContractResponse?> GetContractAsync(int id, CancellationToken cancellationToken)
     {
         var contract = await repository.GetContractAsync(id, cancellationToken);
-        return contract is null ? null : new ContractResponse(
-            contract.Id, contract.ContractNo, contract.CustomerId, contract.Customer.Name,
-            contract.StartDate, contract.EndDate, contract.Status);
+        return contract is null ? null : QtkdResponses.From(contract);
+    }
+
+    public async Task<CustomerResponse?> GetCustomerAsync(int id, CancellationToken cancellationToken)
+    {
+        var customer = await repository.GetCustomerAsync(id, cancellationToken);
+        return customer is null ? null : QtkdResponses.From(customer);
+    }
+
+    public async Task<IReadOnlyList<PriceListResponse>> GetPriceListsAsync(CancellationToken cancellationToken)
+    {
+        var priceLists = await repository.GetPriceListsAsync(cancellationToken);
+        return priceLists.Select(QtkdResponses.From).ToList();
+    }
+
+    public async Task<PriceListResponse?> GetPriceListAsync(int id, CancellationToken cancellationToken)
+    {
+        var priceList = await repository.GetPriceListAsync(id, cancellationToken);
+        return priceList is null ? null : QtkdResponses.From(priceList);
     }
 }

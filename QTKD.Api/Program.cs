@@ -21,6 +21,7 @@ if (string.IsNullOrWhiteSpace(connectionString))
 builder.Services.AddDbContext<QtkdDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<IQtkdRepository, QtkdRepository>();
 builder.Services.AddScoped<IQtkdReadService, QtkdReadService>();
+builder.Services.AddScoped<IQtkdWriteService, QtkdWriteService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

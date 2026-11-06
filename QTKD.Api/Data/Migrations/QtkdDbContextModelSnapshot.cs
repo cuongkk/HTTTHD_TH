@@ -38,6 +38,10 @@ namespace QTKD.Api.Data.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("DocumentReference")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
@@ -45,9 +49,14 @@ namespace QTKD.Api.Data.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Status")
+                        .IsConcurrencyToken()
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Summary")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.HasKey("Id");
 

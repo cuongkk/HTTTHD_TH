@@ -1,6 +1,20 @@
-# Phase 2 - QTKD, tuần 05
+# Phase 2 - QTKD, tuần 05–06
 
-Ứng dụng ASP.NET Core Web API dùng PostgreSQL để đọc Customer và Contract. Đây là nền cho tuần 06 và 07; dữ liệu nằm trong database, không nằm trong controller.
+## Tiếp tục tuần 06
+
+Giữ nguyên PostgreSQL và solution tuần 05. Từ thư mục `source`, sau khi đã cấu hình `ConnectionStrings:QtkdDb` như phần dưới, chạy migration bổ sung và khởi động API:
+
+```powershell
+dotnet restore QTKD.slnx
+dotnet ef database update --project QTKD.Api --startup-project QTKD.Api
+dotnet run --project QTKD.Api --launch-profile http
+```
+
+Migration `Week06ContractRequirements` thêm `Summary` và `DocumentReference` vào bảng `Contracts` mà không xóa dữ liệu tuần 05. Xem [danh sách API, request/response mẫu, giả định CTR-02 và hướng dẫn demo](docs/week06-api.md); có thể chạy tuần tự các request trong `QTKD.Api/QTKD.Api.http` rồi đối chiếu PostgreSQL. Khi dùng dữ liệu đã có, thay ID ví dụ bằng ID thực tế trả về. Chạy `dotnet test QTKD.slnx` để kiểm tra quy tắc và luồng ghi dữ liệu trên EF InMemory; demo PostgreSQL vẫn cần chạy riêng theo tài liệu.
+
+Để quay bài nộp dưới 5 phút theo từng checkpoint, dùng [kịch bản demo tuần 06](docs/week06-demo-script.md) và `python -X utf8 scripts/demo_week06.py`.
+
+Ứng dụng ASP.NET Core Web API dùng PostgreSQL để đọc và ghi Customer, Contract, PriceList và PriceItem. Mã tuần 05 là nền đã được tiếp tục ở tuần 06 và sẽ dùng cho tuần 07; dữ liệu nằm trong database, không nằm trong controller.
 
 ## Cấu trúc
 
@@ -94,7 +108,7 @@ Dữ liệu mẫu: Customer 1 Minh Phát, Customer 2 An Bình; Contract 1 Draft 
 
 ## Giả định và bước tiếp theo
 
-Workspace chưa có kết quả Phase 1 (US03, sơ đồ trạng thái, CTR-01–03), nên entity đang dùng đúng các trường tối thiểu gợi ý trong PDF. `Active` và `Draft` là giá trị demo. Trước tuần 06, đối chiếu lại với thiết kế Phase 1 và ghi lý do nếu cần đổi schema. Tuần 05 chưa có API tạo/sửa, gửi hợp đồng, kiểm tra các rule hoặc test xUnit; các phần đó được giao cho tuần 06–07.
+Workspace chưa có kết quả Phase 1 (US03, sơ đồ trạng thái, CTR-01–03), nên tuần 05 dùng các trường tối thiểu gợi ý trong PDF. `Active` và `Draft` là giá trị demo. Tuần 06 đã bổ sung API ghi dữ liệu, gửi hợp đồng và kiểm tra các rule theo các giả định ghi trong [tài liệu tuần 06](docs/week06-api.md). Cần đối chiếu lại với thiết kế Phase 1 trước khi xem các giả định đó là yêu cầu chính thức.
 
 Checkpoint 7 yêu cầu một **máy hoặc môi trường khác** thực hiện lại theo README. Người kiểm tra cần tự cấu hình PostgreSQL, chạy migration, khởi động API và gọi hai GET; ghi nhận môi trường, ngày và kết quả thực tế. Lần kiểm tra trên cùng máy chưa thay thế bước này.
 

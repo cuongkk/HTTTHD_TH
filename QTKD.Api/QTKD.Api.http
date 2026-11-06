@@ -9,3 +9,63 @@ GET {{baseUrl}}/api/contracts/1
 ###
 
 GET {{baseUrl}}/api/contracts/999
+
+### Week 06: tạo Customer (ghi lại id trả về)
+POST {{baseUrl}}/api/customers
+Content-Type: application/json
+
+{"name":"Công ty Demo Tuần 06"}
+
+### Xem Customer
+GET {{baseUrl}}/api/customers/3
+
+### Sửa Customer
+PUT {{baseUrl}}/api/customers/3
+Content-Type: application/json
+
+{"name":"Công ty Demo Tuần 06","status":"Active"}
+
+### Tạo Contract Draft còn thiếu Summary và DocumentReference (ghi lại id)
+POST {{baseUrl}}/api/contracts
+Content-Type: application/json
+
+{"contractNo":"HD-2026-DEMO-06","customerId":3,"startDate":"2026-11-06","endDate":"2027-11-05"}
+
+### Gửi khi thiếu dữ liệu: 400 CTR-02
+POST {{baseUrl}}/api/contracts/2/submit
+
+### Bổ sung dữ liệu
+PUT {{baseUrl}}/api/contracts/2
+Content-Type: application/json
+
+{"contractNo":"HD-2026-DEMO-06","customerId":3,"startDate":"2026-11-06","endDate":"2027-11-05","summary":"Cung cấp dịch vụ bảo trì","documentReference":"DOC-DEMO-06"}
+
+### Gửi hợp lệ: 200 PendingApproval
+POST {{baseUrl}}/api/contracts/2/submit
+
+### Gửi lặp: 409
+POST {{baseUrl}}/api/contracts/2/submit
+
+### Sửa PendingApproval: 409 CTR-01
+PUT {{baseUrl}}/api/contracts/2
+Content-Type: application/json
+
+{"contractNo":"HD-2026-DEMO-06","customerId":3,"startDate":"2026-11-06","endDate":"2027-11-05","summary":"Nội dung sửa","documentReference":"DOC-DEMO-06"}
+
+### Tạo bảng giá
+POST {{baseUrl}}/api/pricelists
+Content-Type: application/json
+
+{"name":"Bảng giá demo tuần 06","effectiveDate":"2026-11-06"}
+
+### Thêm đơn giá (thay id nếu cần)
+POST {{baseUrl}}/api/pricelists/2/items
+Content-Type: application/json
+
+{"serviceCode":"SVC-DEMO-06","unitPrice":1250000}
+
+### Xem bảng giá và các mục giá
+GET {{baseUrl}}/api/pricelists/2
+
+### Xem riêng các mục giá
+GET {{baseUrl}}/api/pricelists/2/items
